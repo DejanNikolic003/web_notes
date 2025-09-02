@@ -1,9 +1,11 @@
 import axios from "axios";
 import store from "../reducers/index";
 import { refreshToken } from "./auth";
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  // baseURL: "http://localhost:5000/api",
+  baseURL: `${URL}/api`,
   withCredentials: true,
 });
 
