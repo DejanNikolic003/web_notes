@@ -35,13 +35,13 @@ export const register = async (req, res) => {
     res.cookie("token", refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: "lax",
     });
 
     res.status(200).json({
       message: "Successfully registered!",
       username: user.username,
-      accessToken,
+      token: accessToken,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -72,23 +72,23 @@ export const login = async (req, res) => {
         .json({ message: "Incorrect password or username!" });
     }
 
-    const accessToken = jwt.sign({ _id: user.id }, ACCESS_TOKEN, {
+    const accessToken = jwt.sign({ _id: user._id }, ACCESS_TOKEN, {
       expiresIn: "1h",
     });
-    const refreshToken = jwt.sign({ _id: user.id }, REFRESH_TOKEN, {
+    const refreshToken = jwt.sign({ _id: user._id }, REFRESH_TOKEN, {
       expiresIn: "1d",
     });
 
     res.cookie("token", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "strict",
+      secure: false,
+      sameSite: "lax",
     });
 
     res.status(200).json({
       message: "Successfully logged in!",
       username: user.username,
-      accessToken,
+      token: accessToken,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -104,14 +104,25 @@ export const logout = (req, res) => {
   res.status(200).json({ message: "Successfully logged out!" });
 };
 
+export const test = (req, res) => {
+  res.status(200).json({ message: "OK" });
+};
+
+export const me = (req, res) => {
+  res.status(200).json({
+    username: req.user.username,
+  });
+};
+
 export const refresh = (req, res) => {
   const { token } = req.cookies;
-  if (!token)
-    return res.status(401).json({ message: "No refresh token provided." });
+  if (!token) {
+    return res.status(403).json({ message: "No refresh token provided." });
+  }
 
   try {
-    const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET);
-    const newAccessToken = jwt.sign({ _id: decoded.id }, ACCESS_TOKEN, {
+    const decoded = jwt.verify(token, REFRESH_TOKEN);
+    const newAccessToken = jwt.sign({ _id: decoded._id }, ACCESS_TOKEN, {
       expiresIn: "1h",
     });
 
