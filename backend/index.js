@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import mongoose from "mongoose";
 import userRouter from "./routes/users.js";
+import noteRouter from "./routes/notes.js";
+import { isAuthenticated } from "./middlewares/auth.js";
 
 const app = express();
 const CONNECTION_URL = process.env.DB_URL;
@@ -21,6 +23,7 @@ app.use(
 );
 
 app.use("/api/auth", userRouter);
+app.use("/api/notes", isAuthenticated, noteRouter);
 
 mongoose
   .connect(CONNECTION_URL)
