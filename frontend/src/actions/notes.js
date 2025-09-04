@@ -18,6 +18,17 @@ export const getNotes = () => async (dispatch) => {
   }
 };
 
+export const createNote = (formData) => async (dispatch) => {
+  try {
+    console.log(formData);
+    const { data } = await api.createNote(formData);
+    console.log(data);
+    dispatch({ type: CREATE, payload: data.note });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const deleteNote = (noteId) => async (dispatch) => {
   try {
     await api.deleteNote(noteId);
