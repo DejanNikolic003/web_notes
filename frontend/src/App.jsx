@@ -26,7 +26,7 @@ function App() {
   if (!initialized) return <h2>Loading...</h2>; // wait for auth
 
   return (
-    <>
+    <div className="container mx-auto px-2">
       <BrowserRouter>
         <nav>
           {!user.data ? (
@@ -56,7 +56,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
