@@ -12,7 +12,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  if (user) {
+  if (user && user?.data?.token) {
     return <Navigate to="/" replace />;
   }
 
