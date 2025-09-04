@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { login, test } from "../../actions/auth";
+import { login } from "../../actions/auth";
 
 const initialState = { username: "", password: "" };
 
@@ -26,8 +26,6 @@ const Login = () => {
       [event.target.name]: event.target.value,
     }));
 
-  const testFn = () => dispatch(test());
-
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -45,9 +43,6 @@ const Login = () => {
         />
         <button type="submit">Submit</button>
       </form>
-      <button type="button" onClick={testFn}>
-        Test
-      </button>
     </>
   );
 };
