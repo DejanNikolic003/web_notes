@@ -1,17 +1,24 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../actions/auth";
 
 const initialState = { username: "", password: "" };
 
 const Register = () => {
+  const user = useSelector((state) => state.auth);
   const { data, message } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(register(formData));
+    dispatch(register(formData, navigate));
   };
 
   const handleChange = (event) =>

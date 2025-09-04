@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { login, test } from "../../actions/auth";
 
@@ -8,10 +9,15 @@ const Login = () => {
   const user = useSelector((state) => state.auth);
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(login(formData));
+    dispatch(login(formData, navigate));
   };
 
   const handleChange = (event) =>
