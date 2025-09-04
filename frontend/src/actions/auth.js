@@ -17,20 +17,9 @@ export const register = (formData, navigate) => async (dispatch) => {
 export const login = (formData, navigate) => async (dispatch) => {
   try {
     const { data } = await api.login(formData);
+    console.log(data);
     dispatch({ type: AUTH, data });
     navigate("/");
-  } catch (error) {
-    dispatch({
-      type: AUTH_ERROR,
-      message: error.response?.data?.message || error.message,
-    });
-  }
-};
-
-export const test = () => async (dispatch) => {
-  try {
-    const { data } = await api.test();
-    console.log(data);
   } catch (error) {
     dispatch({
       type: AUTH_ERROR,
@@ -53,6 +42,7 @@ export const me = () => async (dispatch) => {
     dispatch({
       type: "AUTH",
       data: {
+        user_id: profile.user_id,
         username: profile.username,
         token: tokenData.accessToken,
       },
