@@ -40,6 +40,7 @@ export const register = async (req, res) => {
 
     res.status(200).json({
       message: "Successfully registered!",
+      user_id: user._id,
       username: user.username,
       token: accessToken,
     });
@@ -87,6 +88,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       message: "Successfully logged in!",
+      user_id: user._id,
       username: user.username,
       token: accessToken,
     });
@@ -110,6 +112,7 @@ export const test = (req, res) => {
 
 export const me = (req, res) => {
   res.status(200).json({
+    user_id: req.user._id,
     username: req.user.username,
   });
 };

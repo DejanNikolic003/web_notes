@@ -6,6 +6,7 @@ const authReducer = (state = { data: null, message: "" }, action) => {
       return {
         ...state,
         data: {
+          user_id: action.data.user_id,
           username: action.data.username,
           token: action.data.token,
         },
