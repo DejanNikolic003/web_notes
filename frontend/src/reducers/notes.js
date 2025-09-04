@@ -11,10 +11,14 @@ import {
 const notesReducer = (state = { isLoading: true, notes: [] }, action) => {
   switch (action.type) {
     case FETCH_ALL:
-      // console.log(action.payload);
       return {
         ...state,
         notes: action.payload,
+      };
+    case CREATE:
+      return {
+        ...state,
+        notes: [...state.notes, action.payload],
       };
     case DELETE:
       return {
