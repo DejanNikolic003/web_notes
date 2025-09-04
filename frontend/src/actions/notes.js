@@ -12,8 +12,17 @@ import {
 export const getNotes = () => async (dispatch) => {
   try {
     const { data } = await api.getNotes();
-    console.log(data.notes);
     dispatch({ type: FETCH_ALL, payload: data.notes });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteNote = (noteId) => async (dispatch) => {
+  try {
+    await api.deleteNote(noteId);
+
+    dispatch({ type: DELETE, payload: noteId });
   } catch (error) {
     console.error(error);
   }
