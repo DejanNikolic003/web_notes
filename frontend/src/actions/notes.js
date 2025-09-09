@@ -20,21 +20,26 @@ export const getNotes = () => async (dispatch) => {
 
 export const createNote = (formData) => async (dispatch) => {
   try {
-    console.log(formData);
+    dispatch({ type: START_LOADING });
     const { data } = await api.createNote(formData);
     console.log(data);
     dispatch({ type: CREATE, payload: data.note });
   } catch (error) {
     console.error(error);
+  } finally {
+    dispatch({ type: STOP_LOADING });
   }
 };
 
 export const deleteNote = (noteId) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     await api.deleteNote(noteId);
 
     dispatch({ type: DELETE, payload: noteId });
   } catch (error) {
     console.error(error);
+  } finally {
+    dispatch({ type: STOP_LOADING });
   }
 };
