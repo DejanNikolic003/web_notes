@@ -11,7 +11,6 @@ const noteSchema = mongoose.Schema(
     title: { type: String, maxLength: 50 },
     content: { type: String },
     pinned: { type: Boolean, default: false },
-    shared: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
