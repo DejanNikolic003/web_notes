@@ -30,6 +30,13 @@ const notesReducer = (state = { isLoading: true, notes: [] }, action) => {
         notes: newNotes,
       };
     }
+    case UPDATE:
+      return {
+        ...state,
+        notes: state.notes.map((note) =>
+          note._id === action.payload._id ? action.payload : note
+        ),
+      };
     case DELETE:
       return {
         ...state,

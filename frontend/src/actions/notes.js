@@ -31,6 +31,19 @@ export const createNote = (formData) => async (dispatch) => {
   }
 };
 
+export const editNotes = (id, formData) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.editNote(id, formData);
+
+    dispatch({ type: UPDATE, payload: data.note });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    dispatch({ type: STOP_LOADING });
+  }
+};
+
 export const deleteNote = (noteId) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
