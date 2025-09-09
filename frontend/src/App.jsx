@@ -11,53 +11,65 @@ import { useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth);
-  const [initialized, setInitialized] = useState(false);
+	const dispatch = useDispatch();
+	const user = useSelector((state) => state.auth);
+	const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {
-    const initAuth = async () => {
-      await dispatch(me());
-      setInitialized(true);
-    };
-    initAuth();
-  }, [dispatch]);
+	useEffect(() => {
+		const initAuth = async () => {
+			await dispatch(me());
+			setInitialized(true);
+		};
+		initAuth();
+	}, [dispatch]);
 
-  if (!initialized) return <h2>Loading...</h2>; // wait for auth
+	if (!initialized) {
+		return (
+			<div className="grid min-h-screen place-items-center bg-slate-900 text-slate-100">
+				<div className="animate-pulse text-slate-400">Loading…</div>
+			</div>
+		);
+	}
 
-  return (
-    <div className="container mx-auto px-2">
-      <BrowserRouter>
-        <nav>
-          {!user.data ? (
-            <>
-              <h1>You are not logged in!</h1>
-              <Link to="/register">Register</Link>
-              <Link to="/login">Login</Link>
-            </>
-          ) : (
-            <div>
-              <h1>You are logged in as {user?.data?.username}</h1>
-              <Link to="/">Home</Link>
-            </div>
-          )}
-        </nav>
+	return (
+		<div className="min-h-screen bg-slate-900 text-slate-100">
+			<BrowserRouter>
+				<header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur">
+					<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+						<Link to="/" className="text-lg font-semibold text-slate-100">NotesApp</Link>
+						<nav className="flex items-center gap-3 text-sm">
+							{!user.data ? (
+								<>
+									<Link to="/register" className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 transition hover:border-slate-600">Register</Link>
+									<Link to="/login" className="rounded-md bg-sky-500 px-3 py-1.5 text-white shadow-sm ring-1 ring-sky-400/30 transition hover:bg-sky-600">Login</Link>
+								</>
+							) : (
+								<div className="flex items-center gap-3">
+									<span className="hidden text-slate-300 sm:inline">{user?.data?.username}</span>
+									<Link to="/" className="rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-slate-200 transition hover:border-slate-600">Home</Link>
+								</div>
+							)}
+						</nav>
+					</div>
+				</header>
 
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />{" "}
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+				<main className="mx-auto max-w-7xl px-4 py-6">
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<ProtectedRoute>
+									<Home />
+								</ProtectedRoute>
+							}
+						/>
+						<Route path="/register" element={<Register />} />
+						<Route path="/login" element={<Login />} />
+					</Routes>
+				</main>
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;

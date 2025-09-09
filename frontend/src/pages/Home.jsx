@@ -4,18 +4,17 @@ import { useDispatch } from "react-redux";
 import { getNotes } from "../actions/notes";
 
 const Home = () => {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getNotes());
-  }, []);
+	useEffect(() => {
+		dispatch(getNotes());
+	}, []);
 
-  return (
-    <>
-      <h1>Home</h1>
-      <Notes />
-    </>
-  );
+	return (
+		<>
+			<Notes />
+		</>
+	);
 };
 
 export default Home;
